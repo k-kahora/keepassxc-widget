@@ -58,6 +58,7 @@
             cp style.css $out/bin
             cp justfile $out/bin
             cp config.js $out/bin
+            cp justfile $out/bin
             cp script.sh $out/bin
             cp start.sh $out/bin/pass-launcher
             wrapProgram $out/bin/pass-launcher \

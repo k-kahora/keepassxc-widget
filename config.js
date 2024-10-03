@@ -55,7 +55,9 @@ const PasswordLauncher = ({ width = 500, height = 500, spacing = 12 }) => {
                 // results[0].attribute.app.launch()
 		let selected = results[0].attribute.entry
 		// Copies entry to clipboard
-		Utils.exec(`bash -c "secret-tool lookup xc 1 | keepassxc-cli clip ~/Documents/PassDatabase/Passwords.kdbx ${selected}" `)
+		// This is blocking so when this runs the gui no longer runs
+		print(['bash', '-c', 'secret-tool lookup xc 1 | keepassxc-cli clip ~/Documents/PassDatabase/Passwords.kdbx "${selected}"' ])
+		Utils.execAsync(['bash', '-c', `secret-tool lookup xc 1 | keepassxc-cli clip ~/Documents/PassDatabase/Passwords.kdbx "${selected}"` ]).then(out => print(out)).catch(err => print(err))
             }
         },
     })

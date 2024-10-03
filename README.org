@@ -6,3 +6,5 @@
   
 * Pass database entry file into the list of options,
 Need to figure out a way to pass the name to keepasscli clip and then close the window after enter is clicked, also a way to dive deeper into entrys maybe, also a fzf stlye search would be ideal
+
+* TODO I essentially want it to copy the username, detecte the paste key being hit and then coppy the password, this is advanced
