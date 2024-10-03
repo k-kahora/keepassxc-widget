@@ -1,5 +1,5 @@
-DATABASE=./tempdata
-PASS=$(secret-tool lookup key1 value1)
+DATABASE="$HOME"/Documents/PassDatabase/Passwords.kdbx
+PASS=$(secret-tool lookup xc 1)
 
 if [ -z "$PASS" ]; then
   echo "Failed to retrieve the password."

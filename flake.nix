@@ -42,6 +42,8 @@
             legacyPackages.eww
             legacyPackages.rofi-wayland
             legacyPackages.libsecret
+            legacyPackages.adw-gtk3
+            legacyPackages.nwg-look
             quickshellPkg
             agsPkg
           ];
