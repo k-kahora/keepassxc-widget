@@ -54,8 +54,8 @@ const PasswordLauncher = ({ width = 500, height = 500, spacing = 12 }) => {
                 // App.toggleWindow(WINDOW_NAME)
                 // results[0].attribute.app.launch()
 		let selected = results[0].attribute.entry
-		Utils.exec(`bash -c "secret-tool lookup xc 1 | keepassxc-cli clip ./tempdata ${selected}" `)
-		print(selected)
+		// Copies entry to clipboard
+		Utils.exec(`bash -c "secret-tool lookup xc 1 | keepassxc-cli clip ~/Documents/PassDatabase/Passwords.kdbx ${selected}" `)
             }
         },
     })
@@ -94,8 +94,10 @@ const PasswordLauncher = ({ width = 500, height = 500, spacing = 12 }) => {
     })
 }
 
+
+
 const window = Widget.Window({
-    name: 'window-name',
+    name: 'pass-launcher',
     exclusivity: 'normal',
     keymode: 'on-demand',
     layer: 'top',
@@ -112,7 +114,7 @@ const window = Widget.Window({
 App.config({
     style: "./style.css",
     windows: [
-        Bar(1),
+	window
 
         // you can call it, for each monitor
         // Bar(0),
