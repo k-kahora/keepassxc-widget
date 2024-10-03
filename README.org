@@ -1,0 +1,4 @@
+* TODO
+- [ ] Select between username and password
+  - [ ] add icons maybe?
+- [ ] Figure out if I can use eww instead of rofi
