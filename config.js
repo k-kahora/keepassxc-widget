@@ -1,59 +1,113 @@
-const hyprland = await Service.import("hyprland")
-const notifications = await Service.import("notifications")
-const mpris = await Service.import("mpris")
-const audio = await Service.import("audio")
-const battery = await Service.import("battery")
-const systemtray = await Service.import("systemtray")
 
-function Workspaces() {
-    const activeId = hyprland.active.workspace.bind("id")
-    const workspaces = hyprland.bind("workspaces")
-        .as(ws => ws.map(({ id }) => Widget.Button({
-            on_clicked: () => hyprland.messageAsync(`dispatch workspace ${id}`),
-            child: Widget.Label(`${id}`),
-            class_name: activeId.as(i => `${i === id ? "focused" : ""}`),
-        })))
-
-    return Widget.Box({
-        class_name: "workspaces",
-        children: workspaces,
+const PasswordEntry = entry => Widget.Button({
+    on_clicked: () => {
+	print(entry)
+    },
+    attribute: { entry },
+    child: Widget.Label({
+	        class_name: "title",
+                label: entry,
+                xalign: 0,
+                vpack: "center",
+                truncate: "end",
     })
-}
+    
+})
 
-function Left() {
-    return Widget.Box({
-        spacing: 8,
-        children: [
-            Workspaces(),
-        ],
+
+const PasswordLauncher = ({ width = 500, height = 500, spacing = 12 }) => {
+    
+// const proc = Utils.subprocess(
+//     // command to run, in an array just like execAsync
+//     ['bash', '-c', './script.sh'],
+
+//     // callback when the program outputs something to stdout
+//     (output) => print(output),
+
+//     // callback on error
+//     (err) => logError(err),
+
+//     // optional widget parameter
+//     // if the widget is destroyed the subprocess is forced to quit
+//     widget,
+// )
+    
+    const entrys = Utils.exec('bash -c ./script.sh').split('\n').map(PasswordEntry) // returns string
+    
+    const list = Widget.Box({
+        vertical: true,
+        children: entrys,
     })
-}
 
 
-App.addIcons(`${App.configDir}/assets`)
+    const entry = Widget.Entry({
 
-function Icon() {
-
-    return Widget.Icon({
-	icon: 'power-symbolic',
-	size: 100,
-    })
-}
-
-function Bar(monitor = 0) {
-    return Widget.Window({
-        name: `bar-${monitor}`, // name has to be unique
-        class_name: "bar",
-        monitor,
-        anchor: ["top", "left", "right"],
-        exclusivity: "exclusive",
-        child: Widget.CenterBox({
-            start_widget: Left(),
-            center_widget: Widget.Label('center widget'),
-            end_widget: Icon(),
+	hexpand: true,
+	css: `margin-bottom: ${spacing}px;`,
+        on_change: ({ text }) => entrys.forEach(item => {
+            item.visible = item.attribute.entry.match(text ?? "")
         }),
+        on_accept: () => {
+            // make sure we only consider visible (searched for) applications
+	    const results = entrys.filter((item) => item.visible);
+            if (results[0]) {
+                // App.toggleWindow(WINDOW_NAME)
+                // results[0].attribute.app.launch()
+		let selected = results[0].attribute.entry
+		Utils.exec(`bash -c "secret-tool lookup xc 1 | keepassxc-cli clip ./tempdata ${selected}" `)
+		print(selected)
+            }
+        },
+    })
+
+    return Widget.Box({
+        vertical: true,
+        css: `margin: ${spacing * 2}px;`,
+        children: [
+            entry,
+
+            // wrap the list in a scrollable
+            // Widget.Scrollable({
+            //     hscroll: "never",
+            //     css: `min-width: ${width}px;`
+            //         + `min-height: ${height}px;`,
+            //     child: list,
+            // }),
+            Widget.Scrollable({
+                hscroll: "never",
+                css: `min-width: ${width}px;`
+                    + `min-height: ${height}px;`,
+                child: list,
+            }),
+        ],
+        // setup: self => self.hook(App, (_, windowName, visible) => {
+        //     if (windowName !== WINDOW_NAME)
+        //         return
+
+        //     // when the applauncher shows up
+        //     if (visible) {
+        //         repopulate()
+        //         entry.text = ""
+        //         entry.grab_focus()
+        //     }
+        // }),
     })
 }
+
+const window = Widget.Window({
+    name: 'window-name',
+    exclusivity: 'normal',
+    keymode: 'on-demand',
+    layer: 'top',
+    margins: [0, 6],
+    monitor: 1,
+    child: PasswordLauncher({
+        width: 500,
+        height: 500,
+        spacing: 12,
+    }),
+})
+
 
 App.config({
     style: "./style.css",

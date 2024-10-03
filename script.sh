@@ -10,12 +10,14 @@ fi
 entries=$(echo "$PASS" | keepassxc-cli ls "$DATABASE")
 
 # Use rofi to select an entry
-selected_entry=$(echo "$entries" | rofi -dmenu)
+selected_entry=$(echo "$entries")
+
+echo "$selected_entry"
 
 # Copy the selected entry's password to clipboard
-if [ -n "$selected_entry" ]; then
-  echo "$PASS" | keepassxc-cli clip "$DATABASE" "$selected_entry"
-else
-  echo "No entry selected."
-  exit 1
-fi
+# if [ -n "$selected_entry" ]; then
+#   echo "$PASS" | keepassxc-cli clip "$DATABASE" "$selected_entry"
+# else
+#   echo "No entry selected."
+#   exit 1
+# fi

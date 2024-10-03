@@ -2,3 +2,7 @@
 - [ ] Select between username and password
   - [ ] add icons maybe?
 - [ ] Figure out if I can use eww instead of rofi
+
+  
+* Pass database entry file into the list of options,
+Need to figure out a way to pass the name to keepasscli clip and then close the window after enter is clicked, also a way to dive deeper into entrys maybe, also a fzf stlye search would be ideal
