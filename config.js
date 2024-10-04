@@ -1,3 +1,9 @@
+const database="/home/malcolm/Documents/PassDatabase/Passwords.kdbx"
+
+let base_dir = ""
+
+const pass = Utils.exec('secret-tool lookup xc 1')
+
 
 const PasswordEntry = entry => Widget.Button({
     on_clicked: () => {
@@ -17,27 +23,22 @@ const PasswordEntry = entry => Widget.Button({
 
 const PasswordLauncher = ({ width = 500, height = 500, spacing = 12 }) => {
     
-// const proc = Utils.subprocess(
-//     // command to run, in an array just like execAsync
-//     ['bash', '-c', './script.sh'],
-
-//     // callback when the program outputs something to stdout
-//     (output) => print(output),
-
-//     // callback on error
-//     (err) => logError(err),
-
-//     // optional widget parameter
-//     // if the widget is destroyed the subprocess is forced to quit
-//     widget,
-// )
-    
-    const entrys = Utils.exec('bash -c ./script.sh').split('\n').map(PasswordEntry) // returns string
+    const exec_str = `bash -c "echo ${pass} | keepassxc-cli ls ${database}"`
+    const entrys = Utils.exec(exec_str).split('\n').map(PasswordEntry) // returns string
     
     const list = Widget.Box({
         vertical: true,
         children: entrys,
     })
+    
+    // When a directory is selected, repopulate with that directory info, and then on the next run use that directory as a jumping point like `Store/huckberry`
+    function repopulate() {
+    const exec_str = `bash -c "echo ${pass} | keepassxc-cli ls ${database} ${base_dir}"`
+    const entrys = Utils.exec(exec_str).split('\n').map(PasswordEntry) // returns string
+	list.children = entrys;
+    
+    
+    }
 
 
     const entry = Widget.Entry({
@@ -53,19 +54,35 @@ const PasswordLauncher = ({ width = 500, height = 500, spacing = 12 }) => {
             if (results[0]) {
                 // App.toggleWindow(WINDOW_NAME)
                 // results[0].attribute.app.launch()
-		let selected = results[0].attribute.entry
-		// Copies entry to clipboard
-		// This is blocking so when this runs the gui no longer runs
-		print(['bash', '-c', 'secret-tool lookup xc 1 | keepassxc-cli clip ~/Documents/PassDatabase/Passwords.kdbx "${selected}"' ])
-		Utils.execAsync(['bash', '-c', `secret-tool lookup xc 1 | keepassxc-cli clip ~/Documents/PassDatabase/Passwords.kdbx "${selected}"` ]).then(out => print(out)).catch(err => print(err))
+		let selected = base_dir + results[0].attribute.entry
+		if (selected.endsWith('/'))
+		  {
+		      base_dir = selected
+		      repopulate()
+		  }
+		else
+		{
+
+		    Utils.execAsync(['bash', '-c', `secret-tool lookup xc 1 | keepassxc-cli clip ~/Documents/PassDatabase/Passwords.kdbx "${selected}"` ]).then(out => print(out)).catch(err => print(err))
+		    App.toggleWindow('pass-launcher')
+		}
             }
         },
+    })
+    
+    App.addIcons(`${App.configDir}/assets`)   
+
+    const lock = Widget.Icon({
+	icon: "lock-symbolic",
+	size: 200,
     })
 
     return Widget.Box({
         vertical: true,
-        css: `margin: ${spacing * 2}px;`,
+        // css: `margin: ${spacing * 2}px;`,
+	class_name: "container",
         children: [
+	    lock,
             entry,
 
             // wrap the list in a scrollable
@@ -104,6 +121,9 @@ const window = Widget.Window({
     keymode: 'on-demand',
     layer: 'top',
     margins: [0, 6],
+    setup: self => self.keybind("Escape", () => {
+        App.closeWindow(`pass-launcher`)
+    }),
     monitor: 1,
     child: PasswordLauncher({
         width: 500,
@@ -111,6 +131,7 @@ const window = Widget.Window({
         spacing: 12,
     }),
 })
+
 
 
 App.config({

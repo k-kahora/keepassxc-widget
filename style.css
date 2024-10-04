@@ -1,40 +1,13 @@
-window.bar {
-    background-color: @theme_bg_color;
-    color: @theme_fg_color;
+* { all: unset; }
+
+
+.container {
+    background-color: #1E1E2E;
+    padding: 20px;
+    border: 10px solid #B5D686;
+    border-radius: 10%;
 }
 
-button {
-    min-width: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-    background-color: red;
-}
-
-button:active {
-    background-color: @theme_selected_bg_color;
-}
-
-button:hover {
-    border-bottom: 3px solid @theme_fg_color;
-}
-
-label {
-    font-weight: bold;
-}
-
-.workspaces button.focused {
-    border-bottom: 3px solid @theme_selected_bg_color;
-}
-
-.client-title {
-    color: @theme_selected_bg_color;
-}
-
-.notification {
-    color: yellow;
-}
-
-levelbar block,
-highlight {
-    min-height: 10px;
+entry {
+    background-color: #B5D686;
 }
