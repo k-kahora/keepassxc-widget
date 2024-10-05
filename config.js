@@ -1,4 +1,5 @@
 const database = "/home/malcolm/Documents/PassDatabase/Passwords.kdbx";
+App.addIcons(`${App.configDir}/assets`);
 
 let base_dir = "";
 
@@ -34,6 +35,11 @@ const PasswordLauncher = ({ width = 500, height = 500, spacing = 12 }) => {
   const exec_str = `bash -c "echo ${pass} | keepassxc-cli ls ${database}"`;
   let entrys = Variable(Utils.exec(exec_str).split('\n').map(PasswordEntry)); // returns string
 
+  let outline = Widget.Icon({
+    icon: "border",
+    // size: 200,
+  })
+
   let list = Widget.Box({
     vertical: true,
     children: entrys.bind()
@@ -50,32 +56,39 @@ const PasswordLauncher = ({ width = 500, height = 500, spacing = 12 }) => {
 
   }
 
-  const entry = Widget.Entry({
-    hexpand: true,
-    placeholder_text: "Password Lookup",
-    css: `margin-bottom: 12px;`,
-    on_change: ({ text }) => entrys.value.forEach(item => {
-      item.visible = item.attribute.entry.match(text ?? "");
-    }),
-    on_accept: () => {
-      const results = entrys.value.filter((item) => item.visible);
-      if (results[0]) {
-        let selected = base_dir + results[0].attribute.entry;
-        if (selected.endsWith('/')) {
-          base_dir = selected;
+  const entry =
 
-          repopulate();
-        } else {
-          Utils.execAsync(['bash', '-c', `secret-tool lookup xc 1 | keepassxc-cli clip ~/Documents/PassDatabase/Passwords.kdbx "${selected}"`])
-            .then(out => print(out))
-            .catch(err => print(err));
-          App.toggleWindow('pass-launcher');
+    Widget.Entry({
+      hexpand: true,
+      placeholder_text: "Password Lookup",
+      css: `margin-bottom: 12px; min-height: 50px; padding: 10px`,
+      on_change: ({ text }) => entrys.value.forEach(item => {
+        item.visible = item.attribute.entry.match(text ?? "");
+      }),
+      on_accept: () => {
+        const results = entrys.value.filter((item) => item.visible);
+        if (results[0]) {
+          let selected = base_dir + results[0].attribute.entry;
+          if (selected.endsWith('/')) {
+            base_dir = selected;
+
+            repopulate();
+          } else {
+            Utils.execAsync(['bash', '-c', `secret-tool lookup xc 1 | keepassxc-cli clip ~/Documents/PassDatabase/Passwords.kdbx "${selected}"`])
+              .then(out => print(out))
+              .catch(err => print(err));
+            App.toggleWindow('pass-launcher');
+          }
         }
-      }
-    },
-  });
+      },
+    });
 
-  App.addIcons(`${App.configDir}/assets`);
+
+  const lock_test = Widget.Box({
+    class_name: "lock-icon",
+    css: `min-width: 128px; min-height: 128px;`,
+  })
+
 
   const lock = Widget.Icon({
     icon: "lock-symbolic",
@@ -90,12 +103,13 @@ const PasswordLauncher = ({ width = 500, height = 500, spacing = 12 }) => {
     Widget.Box({
       vertical: true,
       class_name: "container",
+      css: `min-width: 200px; min-height: 200px; padding-left: 40px`,
       children: [
-        lock,
+        lock_test,
         entry,
         Widget.Scrollable({
           hscroll: "never",
-          css: `min-width: ${width}px; min-height: ${height}px`,
+          css: `min-width: 200px; min-height: 200px; padding: 20px`,
           child: list,
         }),
       ],
@@ -130,7 +144,7 @@ function secret_tool_check() {
     })
 
     return Widget.Box({
-      css: `min-width: 500px; min-height: 500px;`,
+      css: `min-width: 300px; min-height: 300px;`,
       class_name: "password_entry",
       vertical: true,
       children: [
@@ -163,7 +177,7 @@ const window = Widget.Window({
   }),
   monitor: 1,
   child: Widget.Box({
-    css: `min-width: 500px; min-height: 500px;`,
+    css: `min-width: 512px; min-height: 512px;`,
     child: pop_up.bind()
   })
 });

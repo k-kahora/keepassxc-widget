@@ -1,24 +1,40 @@
-* { all: unset; }
+* {
+  all: unset;
+  font-family: "pixelmix";
+  font-size: 12pt;
+}
 
 
 .container {
-    background-color: #1E1E2E;
-    padding: 20px;
-    border: 10px solid #B5D686;
-    border-radius: 10%;
+  background-image: url("./assets/border-symbolic.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  padding: 50px;
+  /* background-color: #1E1E2E; */
+  /* border: 10px solid #B5D686; */
+  /* border-radius: 10%; */
+}
+
+.lock-icon {
+  background-image: url("./assets/test-sprite.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  /* background-color: #1E1E2E; */
 }
 
 entry {
-    background-color: #B5D686;
-    min-height: 100px;
+  background-color: #B5D686;
 }
+/*   min-height: 20px; */
+/*   min-width: 200px; */
+/* } */
 
 .password_entry {
   background-color: #F5C2E7;
   padding: 30px;
+
 }
 
 label {
   font-size: 20px;
 }
-
