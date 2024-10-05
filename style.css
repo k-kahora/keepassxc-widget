@@ -10,4 +10,15 @@
 
 entry {
     background-color: #B5D686;
+    min-height: 100px;
 }
+
+.password_entry {
+  background-color: #F5C2E7;
+  padding: 30px;
+}
+
+label {
+  font-size: 20px;
+}
+
