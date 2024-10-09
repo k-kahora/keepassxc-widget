@@ -1,8 +1,12 @@
+import Gdk from "gi://Gdk";
+
 const database = "/home/malcolm/Documents/PassDatabase/Passwords.kdbx";
 
 App.addIcons(`${App.configDir}/assets`);
 
 let base_dir = "";
+
+let username_toggle = false;
 
 const fontbutton = Widget.FontButton({
   onFontSet: ({ font }) => {
@@ -16,7 +20,11 @@ const fontbutton = Widget.FontButton({
 
 // Pass new icon to this, scrollable section, and entry as a parameter to this function for sectret lookup
 
-const PasswordLauncher = ({ width = 500, height = 500, spacing = 12 }) => {
+const PasswordLauncher = (
+  { width = 500, height = 500, spacing = 12 },
+  entry_bool,
+  scrollable,
+) => {
   const PasswordEntry = (entry) =>
     Widget.Button({
       on_clicked: () => {
@@ -63,10 +71,27 @@ const PasswordLauncher = ({ width = 500, height = 500, spacing = 12 }) => {
     entrys.value = newEntries;
   }
 
-  const entry = Widget.Entry({
+  const password_entry = Widget.Entry({
+    hexpand: true,
+    on_accept: ({ text }) => {
+      Utils.exec(
+        `bash -c "echo ${text} | secret-tool store --label='db' xc 1"`,
+      );
+      pop_up.value = PasswordLauncher(
+        {
+          width: 500,
+          height: 500,
+          spacing: 12,
+        },
+        true,
+        true,
+      );
+    },
+  });
+
+  let entry = Widget.Entry({
     hexpand: true,
     placeholder_text: "Password Lookup",
-    css: `margin-bottom: 12px; min-height: 10px;`,
     on_change: ({ text }) =>
       entrys.value.forEach((item) => {
         item.visible = item.attribute.entry.match(text ?? "");
@@ -93,17 +118,37 @@ const PasswordLauncher = ({ width = 500, height = 500, spacing = 12 }) => {
     },
   });
 
-  const lock_test = Widget.Box({
+  if (!entry_bool) {
+    entry = password_entry;
+  }
+
+  let toggle = Widget.Box({
+    class_name: "username-toggle",
+    css: `min-width: 128px; min-height: 128px;`,
+  });
+
+  let lock_test = Widget.Box({
     class_name: "lock-icon",
     css: `min-width: 128px; min-height: 256px;`,
   });
+
+  const locked = Widget.Box({
+    class_name: "lock-closed",
+    css: `min-width: 128px; min-height: 256px;`,
+  });
+
+  if (!scrollable) {
+    lock_test = locked;
+  }
 
   let box_b = Widget.Box({
     child: Widget.FileChooserButton({}),
 
     css: `min-width: 200px; min-height: 200px; padding: 20px`,
   });
-  box_b = scroll;
+  if (scrollable) {
+    box_b = scroll;
+  }
   const flow_box = Widget.Box({
     children: [
       Widget.Box({
@@ -127,6 +172,15 @@ const PasswordLauncher = ({ width = 500, height = 500, spacing = 12 }) => {
     class_name: "container",
     css: `min-width: 200px; min-height: 200px; padding-left: 55px; padding-right: 55px;`,
     children: [flow_box],
+  }).on("key-press-event", (self, event) => {
+    let keyval = event.get_keyval();
+    let state = event.get_state();
+
+    print(state[1] & Gdk.ModifierType.CONTROL_MASK);
+    if (state[1] & Gdk.ModifierType.CONTROL_MASK && keyval[1] === Gdk.KEY_a) {
+      username_toggle = !username_toggle;
+      self.class_name = username_toggle ? "password-bg" : "container";
+    }
   });
 
   return main_container;
@@ -135,42 +189,25 @@ const PasswordLauncher = ({ width = 500, height = 500, spacing = 12 }) => {
 function secret_tool_check() {
   const result = Utils.exec(`bash -c "secret-tool lookup xc 1"`);
   if (result) {
-    return PasswordLauncher({
-      width: 500,
-      height: 500,
-      spacing: 12,
-    });
+    return PasswordLauncher(
+      {
+        width: 500,
+        height: 500,
+        spacing: 12,
+      },
+      true,
+      true,
+    );
   } else {
-    const label = Widget.Label({
-      label: "Enter Database Password",
-      justification: "center",
-      truncate: "end",
-      xalign: 0,
-      maxWidthChars: 24,
-      wrap: true,
-      useMarkup: true,
-    });
-
-    return Widget.Box({
-      css: `min-width: 300px; min-height: 300px;`,
-      class_name: "password_entry",
-      vertical: true,
-      children: [
-        label,
-        Widget.Entry({
-          on_accept: ({ text }) => {
-            Utils.exec(
-              `bash -c "echo ${text} | secret-tool store --label='db' xc 1"`,
-            );
-            pop_up.value = PasswordLauncher({
-              width: 500,
-              height: 500,
-              spacing: 12,
-            });
-          },
-        }),
-      ],
-    });
+    return PasswordLauncher(
+      {
+        width: 500,
+        height: 500,
+        spacing: 12,
+      },
+      false,
+      false,
+    );
   }
 }
 

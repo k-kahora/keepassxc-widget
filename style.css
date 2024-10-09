@@ -5,6 +5,15 @@
 }
 
 
+.password-bg {
+  background-image: url("./assets/border-password.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  padding: 50px;
+  /* background-color: #1E1E2E; */
+  /* border: 10px solid #B5D686; */
+  /* border-radius: 10%; */
+}
 .container {
   background-image: url("./assets/border-symbolic.png");
   background-repeat: no-repeat;
@@ -15,6 +24,13 @@
   /* border-radius: 10%; */
 }
 
+.username-toggle {
+  background-image: url("./assets/toggle.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  /* background-color: #1E1E2E; */
+}
+
 .lock-icon {
   background-image: url("./assets/test-sprite.png");
   background-repeat: no-repeat;
@@ -22,13 +38,24 @@
   /* background-color: #1E1E2E; */
 }
 
+.lock-closed {
+  background-image: url("./assets/lock-closed.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  /* background-color: #1E1E2E; */
+}
+
 entry {
-    background-color: #6b7f5c;
-    padding-bottom: 20px;
-    padding-top: 20px;
-    padding-left: 20px;
-    border: darkgray solid 2px;
-    }
+  background-color: #6b7f5c;
+  padding-bottom: 20px;
+  padding-top: 20px;
+  padding-left: 20px;
+  border: darkgray solid 2px;
+  margin-bottom: 12px;
+  min-height: 10px;
+
+}
+
 /*   min-width: 200px; */
 /* } */
 
