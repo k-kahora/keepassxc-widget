@@ -1,6 +1,6 @@
 * {
   all: unset;
-  font-family: "pixelmix";
+  font-family: "comiccode";
   font-size: 12pt;
 }
 
@@ -23,9 +23,12 @@
 }
 
 entry {
-  background-color: #B5D686;
-}
-/*   min-height: 20px; */
+    background-color: #6b7f5c;
+    padding-bottom: 20px;
+    padding-top: 20px;
+    padding-left: 20px;
+    border: darkgray solid 2px;
+    }
 /*   min-width: 200px; */
 /* } */
 
@@ -38,3 +41,13 @@ entry {
 label {
   font-size: 20px;
 }
+
+
+
+
+
+
+
+/* caret-color */
+/* text-decoration-color */
+/* outline-color */
