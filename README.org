@@ -13,6 +13,7 @@ I went for a very stylized approach with pixel art which came out pretty good.  
 * Screenshots
 [[./password-enter.png]]
 [[./ss-in-use.png]]
+[[./close-up.png]]
 
 * Installation
 

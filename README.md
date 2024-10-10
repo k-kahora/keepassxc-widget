@@ -1,23 +1,23 @@
 
 # Table of Contents
 
-1.  [Password Widget](#orgabac9a7)
-2.  [Description](#org718af8a)
-3.  [Screenshots](#org668ffdc)
-4.  [Installation](#orgb75ee05)
-    1.  [My hyprland setup](#org8b381cc)
-    2.  [Non nixos setup](#org85a71bd)
-5.  [Usage](#orgf7cc94f)
-6.  [Features](#orga2c8710)
-7.  [Contributing](#org594d3e1)
+1.  [Password Widget](#org91a5798)
+2.  [Description](#org994c5dc)
+3.  [Screenshots](#orgf03f73d)
+4.  [Installation](#org137340b)
+    1.  [My hyprland setup](#org9ec4e32)
+    2.  [Non nixos setup](#org2910f98)
+5.  [Usage](#org8a4a43e)
+6.  [Features](#org3cdd38b)
+7.  [Contributing](#org55c6f1d)
 
 
-<a id="orgabac9a7"></a>
+<a id="org91a5798"></a>
 
 # Password Widget
 
 
-<a id="org718af8a"></a>
+<a id="org994c5dc"></a>
 
 # Description
 
@@ -30,15 +30,16 @@ This project is essentially a wrapper around [Keepassxc](https://keepassxc.org/)
 I went for a very stylized approach with pixel art which came out pretty good.  To actually create the UI I used [AGS](https://github.com/Aylur/ags).  
 
 
-<a id="org668ffdc"></a>
+<a id="orgf03f73d"></a>
 
 # Screenshots
 
 ![img](./password-enter.png)
 ![img](./ss-in-use.png)
+![img](./close-up.png)
 
 
-<a id="orgb75ee05"></a>
+<a id="org137340b"></a>
 
 # Installation
 
@@ -85,7 +86,7 @@ Then just run
     pass-launcher toggle
 
 
-<a id="org8b381cc"></a>
+<a id="org9ec4e32"></a>
 
 ## My hyprland setup
 
@@ -94,7 +95,7 @@ Then just run
     bind = $mainMod, P, exec, pass-launcher toggle
 
 
-<a id="org85a71bd"></a>
+<a id="org2910f98"></a>
 
 ## Non nixos setup
 
@@ -107,14 +108,14 @@ Dependecies
 clone the project and just run `ags -c ./config.js`
 
 
-<a id="orgf7cc94f"></a>
+<a id="org8a4a43e"></a>
 
 # Usage
 
 Open up an existing keepassxc database file and enter your password to begin browsing the available passwords.  Hitting enter on one
 
 
-<a id="orga2c8710"></a>
+<a id="org3cdd38b"></a>
 
 # Features
 
@@ -127,7 +128,7 @@ Open up an existing keepassxc database file and enter your password to begin bro
 -   [X] Reads the `KEEPASSXC_BD` env variable so you do not have to use file selector
 
 
-<a id="org594d3e1"></a>
+<a id="org55c6f1d"></a>
 
 # Contributing
 
