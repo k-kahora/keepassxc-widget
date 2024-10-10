@@ -8,9 +8,72 @@ This is essentially a wrapper around [[https://keepassxc.org/][Keepassxc]].  It 
 
 * Installation
 
+if your using nix then its super easy, just add it as in input and put the derivation in your packages
+
+#+begin_src sh
+
+{
+  description = "demo flake";
+
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    flake-utils.url = "github:numtide/flake-utils";
+
+    pix_pass = {
+      url = "github:k-kahora/keepass-widget";
+    };
+  };
+
+  outputs = { self, nixpkgs, flake-utils, }:
+    flake-utils.lib.eachDefaultSystem (system:
+      let
+        pkgs = nixpkgs.legacyPackages.${system};
+        lib = pkgs.lib;
+        pix_pass_pkg = pix_pass.packages.${system}."default";
+      in
+      {
+        devShells.default = pkgs.mkShell {
+          packages = [
+	      pix_pass_pkgs
+          ];
+        };
+      }
+    );
+}
+
+#+end_src
+
+Then just run 
+#+begin_src sh
+
+nix develop
+
+pass-launcher open
+
+# to toggle the visablity
+pass-launcher toggle
+
+#+end_src
+
+** My hyprland setup
+#+begin_src sh
+# On start I run pass-launcher open in the background
+
+bind = $mainMod, P, exec, pass-launcher toggle
+#+end_src
+
 * Usage
 
 * Features
+
+- [X] Open any database file on your system
+- [X] Toggle between username and password
+- [X] Enter groups and leave groups
+- [X] C-g to toggle password or username
+- [X] C-r to reset the database search
+- [X] Click on lock to lock database file
+- [X] Reads the ~KEEPASSXC_BD~ env variable so you do not have to use file selector
+
 * Contributing
 * Credits
 * Contact
