@@ -3,10 +3,16 @@
 
 * Description
 
-This is essentially a wrapper around [[https://keepassxc.org/][Keepassxc]].  It uses the [[https://manpages.ubuntu.com/manpages/focal/man1/keepassxc-cli.1.html][keepassxc-cli]] to interact with the password database files.  I have been using [[https://keepassxc.org/][Keepassxc]] however it was really bothering me having to open the application, click the password I wanted and click C-c, my soloution is a much faster mousless interface.  Unfortunatley the UI is not easily customizable as I went for a very stylized approach with pixel art which does not lend itself to easy color customizing.  To actually create the UI I used [[https://github.com/Aylur/ags][AGS]].  
-* Demo
+This project is essentially a wrapper around KeepassXC. It uses the keepassxc-cli to interact with password database files. I had been using KeepassXC, but it was cumbersome to open the application, select the password, and manually copy it using Ctrl+C. My solution is a much faster, mouseless interface.
 
-<video src="https://raw.githubusercontent.com/k-kahora/keepassxc-widget/refs/heads/master/demo.mp4"></video>
+Unfortunately, the UI is not easily customizable since I opted for a highly stylized pixel art approach, which doesn’t lend itself to easy color customization. To create the UI, I used AGS.
+
+This project is essentially a wrapper around [[https://keepassxc.org/][Keepassxc]].  It uses the [[https://manpages.ubuntu.com/manpages/focal/man1/keepassxc-cli.1.html][keepassxc-cli]] to interact with the password database files.  I had been using [[https://keepassxc.org/][Keepassxc]] however it was cumbersome to opent the application, select the password, and manually copy it using Ctrl+C. My solution is a much faster, mouseless interface.
+
+I went for a very stylized approach with pixel art which came out pretty good.  To actually create the UI I used [[https://github.com/Aylur/ags][AGS]].  
+* Screenshots
+[[./password-enter.png]]
+[[./ss-in-use.png]]
 
 * Installation
 
@@ -67,7 +73,6 @@ bind = $mainMod, P, exec, pass-launcher toggle
 ** Non nixos setup
 Dependecies
 - keepassxc
-- adw-gtk3 and nwg-look optional, I use for themeing
 - ags
 - libsecret (secret-tool)
  
@@ -88,5 +93,3 @@ Open up an existing keepassxc database file and enter your password to begin bro
 - [X] Reads the ~KEEPASSXC_BD~ env variable so you do not have to use file selector
 
 * Contributing
-* Credits
-* Contact

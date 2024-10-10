@@ -1,39 +1,44 @@
 
 # Table of Contents
 
-1.  [Password Widget](#org9650b04)
-2.  [Description](#orgc13ca74)
-3.  [Demo](#orge320de1)
-4.  [Installation](#org6ade73f)
-    1.  [My hyprland setup](#org499b75b)
-    2.  [Non nixos setup](#orgf282664)
-5.  [Usage](#org43489c3)
-6.  [Features](#org8bbf90c)
-7.  [Contributing](#orge765f0e)
-8.  [Credits](#orgf5bcf87)
-9.  [Contact](#org76f5eba)
+1.  [Password Widget](#orgabac9a7)
+2.  [Description](#org718af8a)
+3.  [Screenshots](#org668ffdc)
+4.  [Installation](#orgb75ee05)
+    1.  [My hyprland setup](#org8b381cc)
+    2.  [Non nixos setup](#org85a71bd)
+5.  [Usage](#orgf7cc94f)
+6.  [Features](#orga2c8710)
+7.  [Contributing](#org594d3e1)
 
 
-<a id="org9650b04"></a>
+<a id="orgabac9a7"></a>
 
 # Password Widget
 
 
-<a id="orgc13ca74"></a>
+<a id="org718af8a"></a>
 
 # Description
 
-This is essentially a wrapper around [Keepassxc](https://keepassxc.org/).  It uses the [keepassxc-cli](https://manpages.ubuntu.com/manpages/focal/man1/keepassxc-cli.1.html) to interact with the password database files.  I have been using [Keepassxc](https://keepassxc.org/) however it was really bothering me having to open the application, click the password I wanted and click C-c, my soloution is a much faster mousless interface.  Unfortunatley the UI is not easily customizable as I went for a very stylized approach with pixel art which does not lend itself to easy color customizing.  To actually create the UI I used [AGS](https://github.com/Aylur/ags).  
+This project is essentially a wrapper around KeepassXC. It uses the keepassxc-cli to interact with password database files. I had been using KeepassXC, but it was cumbersome to open the application, select the password, and manually copy it using Ctrl+C. My solution is a much faster, mouseless interface.
+
+Unfortunately, the UI is not easily customizable since I opted for a highly stylized pixel art approach, which doesn’t lend itself to easy color customization. To create the UI, I used AGS.
+
+This project is essentially a wrapper around [Keepassxc](https://keepassxc.org/).  It uses the [keepassxc-cli](https://manpages.ubuntu.com/manpages/focal/man1/keepassxc-cli.1.html) to interact with the password database files.  I had been using [Keepassxc](https://keepassxc.org/) however it was cumbersome to opent the application, select the password, and manually copy it using Ctrl+C. My solution is a much faster, mouseless interface.
+
+I went for a very stylized approach with pixel art which came out pretty good.  To actually create the UI I used [AGS](https://github.com/Aylur/ags).  
 
 
-<a id="orge320de1"></a>
+<a id="org668ffdc"></a>
 
-# Demo
+# Screenshots
 
-<video src="https://raw.githubusercontent.com/k-kahora/keepassxc-widget/refs/heads/master/demo.mp4"></video>
+![img](./password-enter.png)
+![img](./ss-in-use.png)
 
 
-<a id="org6ade73f"></a>
+<a id="orgb75ee05"></a>
 
 # Installation
 
@@ -80,7 +85,7 @@ Then just run
     pass-launcher toggle
 
 
-<a id="org499b75b"></a>
+<a id="org8b381cc"></a>
 
 ## My hyprland setup
 
@@ -89,28 +94,27 @@ Then just run
     bind = $mainMod, P, exec, pass-launcher toggle
 
 
-<a id="orgf282664"></a>
+<a id="org85a71bd"></a>
 
 ## Non nixos setup
 
 Dependecies
 
 -   keepassxc
--   adw-gtk3 and nwg-look optional, I use for themeing
 -   ags
 -   libsecret (secret-tool)
 
 clone the project and just run `ags -c ./config.js`
 
 
-<a id="org43489c3"></a>
+<a id="orgf7cc94f"></a>
 
 # Usage
 
 Open up an existing keepassxc database file and enter your password to begin browsing the available passwords.  Hitting enter on one
 
 
-<a id="org8bbf90c"></a>
+<a id="orga2c8710"></a>
 
 # Features
 
@@ -123,17 +127,7 @@ Open up an existing keepassxc database file and enter your password to begin bro
 -   [X] Reads the `KEEPASSXC_BD` env variable so you do not have to use file selector
 
 
-<a id="orge765f0e"></a>
+<a id="org594d3e1"></a>
 
 # Contributing
-
-
-<a id="orgf5bcf87"></a>
-
-# Credits
-
-
-<a id="org76f5eba"></a>
-
-# Contact
 
