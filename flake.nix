@@ -56,10 +56,9 @@
           installPhase = ''
             mkdir -p $out/bin
             cp style.css $out/bin
+            cp -r assets $out/bin/assets
             cp justfile $out/bin
             cp config.js $out/bin
-            cp justfile $out/bin
-            cp script.sh $out/bin
             cp start.sh $out/bin/pass-launcher
             wrapProgram $out/bin/pass-launcher \
               --suffix PATH : ${lib.makeBinPath [ pkgs.libsecret agsPkg ]}
