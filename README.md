@@ -1,36 +1,39 @@
 
 # Table of Contents
 
-1.  [Password Widget](#orge83a1d7)
-2.  [Description](#org1c44a8d)
-3.  [Demo](#org15bd1f8)
-4.  [Installation](#org5f9b179)
-    1.  [My hyprland setup](#org49f6a6d)
-5.  [Usage](#org760a631)
-6.  [Features](#org4db68a1)
-7.  [Contributing](#org22883db)
-8.  [Credits](#org65c1713)
-9.  [Contact](#org6d6167a)
+1.  [Password Widget](#org41d0dc8)
+2.  [Description](#org2f6c20a)
+3.  [Demo](#org3062a50)
+4.  [Installation](#orga06a9f2)
+    1.  [My hyprland setup](#org0f2f65f)
+    2.  [Non nixos setup](#org69209dd)
+5.  [Usage](#org94434c1)
+6.  [Features](#org6a96a2c)
+7.  [Contributing](#org538ba55)
+8.  [Credits](#org8cf1d92)
+9.  [Contact](#org2bd23ad)
 
 
-<a id="orge83a1d7"></a>
+<a id="org41d0dc8"></a>
 
 # Password Widget
 
 
-<a id="org1c44a8d"></a>
+<a id="org2f6c20a"></a>
 
 # Description
 
 This is essentially a wrapper around [Keepassxc](https://keepassxc.org/).  It uses the [keepassxc-cli](https://manpages.ubuntu.com/manpages/focal/man1/keepassxc-cli.1.html) to interact with the password database files.  I have been using [Keepassxc](https://keepassxc.org/) however it was really bothering me having to open the application, click the password I wanted and click C-c, my soloution is a much faster mousless interface.  Unfortunatley the UI is not easily customizable as I went for a very stylized approach with pixel art which does not lend itself to easy color customizing.  To actually create the UI I used [AGS](https://github.com/Aylur/ags).  
 
 
-<a id="org15bd1f8"></a>
+<a id="org3062a50"></a>
 
 # Demo
 
+./2024-10-10 03-07-23.mp4
 
-<a id="org5f9b179"></a>
+
+<a id="orga06a9f2"></a>
 
 # Installation
 
@@ -45,11 +48,11 @@ if your using nix then its super easy, just add it as in input and put the deriv
         flake-utils.url = "github:numtide/flake-utils";
     
         pix_pass = {
-          url = "github:k-kahora/keepass-widget";
+          url = "github:k-kahora/keepassxc-widget";
         };
       };
     
-      outputs = { self, nixpkgs, flake-utils, }:
+      outputs = { self, nixpkgs, flake-utils, pix_pass}:
         flake-utils.lib.eachDefaultSystem (system:
           let
             pkgs = nixpkgs.legacyPackages.${system};
@@ -59,7 +62,7 @@ if your using nix then its super easy, just add it as in input and put the deriv
           {
             devShells.default = pkgs.mkShell {
               packages = [
-                  pix_pass_pkgs
+                  pix_pass_pkg
               ];
             };
           }
@@ -77,7 +80,7 @@ Then just run
     pass-launcher toggle
 
 
-<a id="org49f6a6d"></a>
+<a id="org0f2f65f"></a>
 
 ## My hyprland setup
 
@@ -86,12 +89,28 @@ Then just run
     bind = $mainMod, P, exec, pass-launcher toggle
 
 
-<a id="org760a631"></a>
+<a id="org69209dd"></a>
+
+## Non nixos setup
+
+Dependecies
+
+-   keepassxc
+-   adw-gtk3 and nwg-look optional, I use for themeing
+-   ags
+-   libsecret (secret-tool)
+
+clone the project and just run `ags -c ./config.js`
+
+
+<a id="org94434c1"></a>
 
 # Usage
 
+Open up an existing keepassxc database file and enter your password to begin browsing the available passwords.  Hitting enter on one
 
-<a id="org4db68a1"></a>
+
+<a id="org6a96a2c"></a>
 
 # Features
 
@@ -104,17 +123,17 @@ Then just run
 -   [X] Reads the `KEEPASSXC_BD` env variable so you do not have to use file selector
 
 
-<a id="org22883db"></a>
+<a id="org538ba55"></a>
 
 # Contributing
 
 
-<a id="org65c1713"></a>
+<a id="org8cf1d92"></a>
 
 # Credits
 
 
-<a id="org6d6167a"></a>
+<a id="org2bd23ad"></a>
 
 # Contact
 

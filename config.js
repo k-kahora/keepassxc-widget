@@ -39,7 +39,15 @@ const PasswordLauncher = (
   const PasswordEntry = (entry) =>
     Widget.Button({
       on_clicked: () => {
-        print(entry);
+          Utils.execAsync([
+            "bash",
+            "-c",
+            `secret-tool lookup xc 1 | keepassxc-cli clip -a "${pass_or_username.value}" "${database}" "${entry}"`,
+          ])
+            .then((out) => print(out))
+            .catch((err) => print(err));
+
+          App.toggleWindow("pass-launcher");
       },
       attribute: { entry },
       child: Widget.Label({

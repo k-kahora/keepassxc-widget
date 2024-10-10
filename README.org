@@ -6,6 +6,8 @@
 This is essentially a wrapper around [[https://keepassxc.org/][Keepassxc]].  It uses the [[https://manpages.ubuntu.com/manpages/focal/man1/keepassxc-cli.1.html][keepassxc-cli]] to interact with the password database files.  I have been using [[https://keepassxc.org/][Keepassxc]] however it was really bothering me having to open the application, click the password I wanted and click C-c, my soloution is a much faster mousless interface.  Unfortunatley the UI is not easily customizable as I went for a very stylized approach with pixel art which does not lend itself to easy color customizing.  To actually create the UI I used [[https://github.com/Aylur/ags][AGS]].  
 * Demo
 
+demo.mp4
+
 * Installation
 
 if your using nix then its super easy, just add it as in input and put the derivation in your packages
@@ -20,11 +22,11 @@ if your using nix then its super easy, just add it as in input and put the deriv
     flake-utils.url = "github:numtide/flake-utils";
 
     pix_pass = {
-      url = "github:k-kahora/keepass-widget";
+      url = "github:k-kahora/keepassxc-widget";
     };
   };
 
-  outputs = { self, nixpkgs, flake-utils, }:
+  outputs = { self, nixpkgs, flake-utils, pix_pass}:
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
@@ -34,7 +36,7 @@ if your using nix then its super easy, just add it as in input and put the deriv
       {
         devShells.default = pkgs.mkShell {
           packages = [
-	      pix_pass_pkgs
+              pix_pass_pkg
           ];
         };
       }
@@ -62,7 +64,18 @@ pass-launcher toggle
 bind = $mainMod, P, exec, pass-launcher toggle
 #+end_src
 
+** Non nixos setup
+Dependecies
+- keepassxc
+- adw-gtk3 and nwg-look optional, I use for themeing
+- ags
+- libsecret (secret-tool)
+ 
+clone the project and just run ~ags -c ./config.js~
+
 * Usage
+
+Open up an existing keepassxc database file and enter your password to begin browsing the available passwords.  Hitting enter on one
 
 * Features
 
