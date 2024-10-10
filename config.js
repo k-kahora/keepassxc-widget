@@ -3,13 +3,13 @@ const GLib = imports.gi.GLib;
 
 let database = GLib.getenv("KEEPASSXC_DB");
 
+
 if (database !== null) {
   print(`Environment variable: ${database}`);
 } else {
   print("Environment variable not found");
 }
 
-// const database = "/home/malcolm/Documents/PassDatabase/Passwords.kdbx";
 
 App.addIcons(`${App.configDir}/assets`);
 
@@ -125,7 +125,7 @@ const PasswordLauncher = (
           Utils.execAsync([
             "bash",
             "-c",
-            `secret-tool lookup xc 1 | keepassxc-cli clip -a "${pass_or_username.value}" ~/Documents/PassDatabase/Passwords.kdbx "${selected}"`,
+            `secret-tool lookup xc 1 | keepassxc-cli clip -a "${pass_or_username.value}" "${database}" "${selected}"`,
           ])
             .then((out) => print(out))
             .catch((err) => print(err));

@@ -1,10 +1,16 @@
-* TODO
-- [ ] Select between username and password
-  - [ ] add icons maybe?
-- [ ] Figure out if I can use eww instead of rofi
 
-  
-* Pass database entry file into the list of options,
-Need to figure out a way to pass the name to keepasscli clip and then close the window after enter is clicked, also a way to dive deeper into entrys maybe, also a fzf stlye search would be ideal
+* Password Widget
 
-* TODO I essentially want it to copy the username, detecte the paste key being hit and then coppy the password, this is advanced
+* Description
+
+This is essentially a wrapper around [[https://keepassxc.org/][Keepassxc]].  It uses the [[https://manpages.ubuntu.com/manpages/focal/man1/keepassxc-cli.1.html][keepassxc-cli]] to interact with the password database files.  I have been using [[https://keepassxc.org/][Keepassxc]] however it was really bothering me having to open the application, click the password I wanted and click C-c, my soloution is a much faster mousless interface.  Unfortunatley the UI is not easily customizable as I went for a very stylized approach with pixel art which does not lend itself to easy color customizing.  To actually create the UI I used [[https://github.com/Aylur/ags][AGS]].  
+* Demo
+
+* Installation
+
+* Usage
+
+* Features
+* Contributing
+* Credits
+* Contact
