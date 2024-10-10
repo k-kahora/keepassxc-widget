@@ -1,39 +1,39 @@
 
 # Table of Contents
 
-1.  [Password Widget](#org41d0dc8)
-2.  [Description](#org2f6c20a)
-3.  [Demo](#org3062a50)
-4.  [Installation](#orga06a9f2)
-    1.  [My hyprland setup](#org0f2f65f)
-    2.  [Non nixos setup](#org69209dd)
-5.  [Usage](#org94434c1)
-6.  [Features](#org6a96a2c)
-7.  [Contributing](#org538ba55)
-8.  [Credits](#org8cf1d92)
-9.  [Contact](#org2bd23ad)
+1.  [Password Widget](#org9650b04)
+2.  [Description](#orgc13ca74)
+3.  [Demo](#orge320de1)
+4.  [Installation](#org6ade73f)
+    1.  [My hyprland setup](#org499b75b)
+    2.  [Non nixos setup](#orgf282664)
+5.  [Usage](#org43489c3)
+6.  [Features](#org8bbf90c)
+7.  [Contributing](#orge765f0e)
+8.  [Credits](#orgf5bcf87)
+9.  [Contact](#org76f5eba)
 
 
-<a id="org41d0dc8"></a>
+<a id="org9650b04"></a>
 
 # Password Widget
 
 
-<a id="org2f6c20a"></a>
+<a id="orgc13ca74"></a>
 
 # Description
 
 This is essentially a wrapper around [Keepassxc](https://keepassxc.org/).  It uses the [keepassxc-cli](https://manpages.ubuntu.com/manpages/focal/man1/keepassxc-cli.1.html) to interact with the password database files.  I have been using [Keepassxc](https://keepassxc.org/) however it was really bothering me having to open the application, click the password I wanted and click C-c, my soloution is a much faster mousless interface.  Unfortunatley the UI is not easily customizable as I went for a very stylized approach with pixel art which does not lend itself to easy color customizing.  To actually create the UI I used [AGS](https://github.com/Aylur/ags).  
 
 
-<a id="org3062a50"></a>
+<a id="orge320de1"></a>
 
 # Demo
 
-./2024-10-10 03-07-23.mp4
+<video src="https://raw.githubusercontent.com/k-kahora/keepassxc-widget/refs/heads/master/demo.mp4"></video>
 
 
-<a id="orga06a9f2"></a>
+<a id="org6ade73f"></a>
 
 # Installation
 
@@ -80,7 +80,7 @@ Then just run
     pass-launcher toggle
 
 
-<a id="org0f2f65f"></a>
+<a id="org499b75b"></a>
 
 ## My hyprland setup
 
@@ -89,7 +89,7 @@ Then just run
     bind = $mainMod, P, exec, pass-launcher toggle
 
 
-<a id="org69209dd"></a>
+<a id="orgf282664"></a>
 
 ## Non nixos setup
 
@@ -103,14 +103,14 @@ Dependecies
 clone the project and just run `ags -c ./config.js`
 
 
-<a id="org94434c1"></a>
+<a id="org43489c3"></a>
 
 # Usage
 
 Open up an existing keepassxc database file and enter your password to begin browsing the available passwords.  Hitting enter on one
 
 
-<a id="org6a96a2c"></a>
+<a id="org8bbf90c"></a>
 
 # Features
 
@@ -123,17 +123,17 @@ Open up an existing keepassxc database file and enter your password to begin bro
 -   [X] Reads the `KEEPASSXC_BD` env variable so you do not have to use file selector
 
 
-<a id="org538ba55"></a>
+<a id="orge765f0e"></a>
 
 # Contributing
 
 
-<a id="org8cf1d92"></a>
+<a id="orgf5bcf87"></a>
 
 # Credits
 
 
-<a id="org2bd23ad"></a>
+<a id="org76f5eba"></a>
 
 # Contact
 

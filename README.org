@@ -6,7 +6,7 @@
 This is essentially a wrapper around [[https://keepassxc.org/][Keepassxc]].  It uses the [[https://manpages.ubuntu.com/manpages/focal/man1/keepassxc-cli.1.html][keepassxc-cli]] to interact with the password database files.  I have been using [[https://keepassxc.org/][Keepassxc]] however it was really bothering me having to open the application, click the password I wanted and click C-c, my soloution is a much faster mousless interface.  Unfortunatley the UI is not easily customizable as I went for a very stylized approach with pixel art which does not lend itself to easy color customizing.  To actually create the UI I used [[https://github.com/Aylur/ags][AGS]].  
 * Demo
 
-demo.mp4
+<video src="https://raw.githubusercontent.com/k-kahora/keepassxc-widget/refs/heads/master/demo.mp4"></video>
 
 * Installation
 
