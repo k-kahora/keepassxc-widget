@@ -1,12 +1,23 @@
 import Gdk from "gi://Gdk";
+const GLib = imports.gi.GLib;
 
-const database = "/home/malcolm/Documents/PassDatabase/Passwords.kdbx";
+let database = GLib.getenv("KEEPASSXC_DB");
+
+if (database !== null) {
+  print(`Environment variable: ${database}`);
+} else {
+  print("Environment variable not found");
+}
+
+// const database = "/home/malcolm/Documents/PassDatabase/Passwords.kdbx";
 
 App.addIcons(`${App.configDir}/assets`);
 
 let base_dir = "";
 
 let username_toggle = false;
+
+let pass_or_username = Variable("password");
 
 const fontbutton = Widget.FontButton({
   onFontSet: ({ font }) => {
@@ -39,6 +50,12 @@ const PasswordLauncher = (
         truncate: "end",
       }),
     });
+
+  const fixed = Widget.Fixed({
+    setup(self) {
+      self.put(Widget.Label({ label: pass_or_username.bind() }), 280, 100);
+    },
+  });
 
   const pass = Utils.exec(`bash -c "secret-tool lookup xc 1"`);
 
@@ -108,10 +125,11 @@ const PasswordLauncher = (
           Utils.execAsync([
             "bash",
             "-c",
-            `secret-tool lookup xc 1 | keepassxc-cli clip ~/Documents/PassDatabase/Passwords.kdbx "${selected}"`,
+            `secret-tool lookup xc 1 | keepassxc-cli clip -a "${pass_or_username.value}" ~/Documents/PassDatabase/Passwords.kdbx "${selected}"`,
           ])
             .then((out) => print(out))
             .catch((err) => print(err));
+
           App.toggleWindow("pass-launcher");
         }
       }
@@ -127,9 +145,21 @@ const PasswordLauncher = (
     css: `min-width: 128px; min-height: 128px;`,
   });
 
-  let lock_test = Widget.Box({
+  let lock_test = Widget.Button({
     class_name: "lock-icon",
     css: `min-width: 128px; min-height: 256px;`,
+    on_clicked: (self) => {
+      Utils.exec(`secret-tool clear xc 1`);
+      pop_up.value = PasswordLauncher(
+        {
+          width: 500,
+          height: 500,
+          spacing: 12,
+        },
+        false,
+        false,
+      );
+    },
   });
 
   const locked = Widget.Box({
@@ -141,14 +171,17 @@ const PasswordLauncher = (
     lock_test = locked;
   }
 
-  let box_b = Widget.Box({
-    child: Widget.FileChooserButton({}),
+  let box_file_select = Widget.Box({
+    child: Widget.FileChooserButton({
+      onFileSet: ({ uri }) => {
+        let cleanedUrl = uri.replace(/^file:\/\//, "");
+        database = cleanedUrl;
+      },
+    }),
 
     css: `min-width: 200px; min-height: 200px; padding: 20px`,
   });
-  if (scrollable) {
-    box_b = scroll;
-  }
+  let file_or_scroll = scrollable ? scroll : box_file_select;
   const flow_box = Widget.Box({
     children: [
       Widget.Box({
@@ -160,7 +193,7 @@ const PasswordLauncher = (
           }),
         ],
       }),
-      box_b,
+      file_or_scroll,
 
       Widget.Box({ css: `min-height: 80px` }),
     ],
@@ -169,7 +202,7 @@ const PasswordLauncher = (
 
   const main_container = Widget.Box({
     vertical: true,
-    class_name: "container",
+    class_name: username_toggle ? "password-bg" : "container",
     css: `min-width: 200px; min-height: 200px; padding-left: 55px; padding-right: 55px;`,
     children: [flow_box],
   }).on("key-press-event", (self, event) => {
@@ -177,13 +210,22 @@ const PasswordLauncher = (
     let state = event.get_state();
 
     print(state[1] & Gdk.ModifierType.CONTROL_MASK);
-    if (state[1] & Gdk.ModifierType.CONTROL_MASK && keyval[1] === Gdk.KEY_a) {
+    if (state[1] & Gdk.ModifierType.CONTROL_MASK && keyval[1] === Gdk.KEY_g) {
       username_toggle = !username_toggle;
+      pass_or_username.value = username_toggle ? "username" : "password";
       self.class_name = username_toggle ? "password-bg" : "container";
+    }
+    if (state[1] & Gdk.ModifierType.CONTROL_MASK && keyval[1] === Gdk.KEY_r) {
+      base_dir = "";
+      repopulate();
     }
   });
 
-  return main_container;
+  return Widget.Overlay({
+    pass_through: true,
+    overlays: [fixed],
+    child: main_container,
+  });
 };
 
 function secret_tool_check() {
