@@ -90,6 +90,7 @@ const PasswordLauncher = (
 
   const password_entry = Widget.Entry({
     hexpand: true,
+    visibility: false,
     on_accept: ({ text }) => {
       Utils.exec(
         `bash -c "echo ${text} | secret-tool store --label='db' xc 1"`,
@@ -149,6 +150,7 @@ const PasswordLauncher = (
     class_name: "lock-icon",
     css: `min-width: 128px; min-height: 256px;`,
     on_clicked: (self) => {
+      base_dir = "";
       Utils.exec(`secret-tool clear xc 1`);
       pop_up.value = PasswordLauncher(
         {
